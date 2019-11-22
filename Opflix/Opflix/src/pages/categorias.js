@@ -58,14 +58,22 @@ class Categorias extends Component{
         .catch(erro => console.warn(erro));
     };
 
+    _LogOut = ()=>{
+      this.props.navigation.navigate('AuthStack')
+  }
+
   render() {
       return (
           <ScrollView style={styles.corpo} >  
           <View  style={styles.topo}>
+          {/* <TouchableOpacity onPress={this._LogOut}>
+           <Text>LogOut</Text> 
+          </TouchableOpacity> */}
         <Image
         source={require('../assets/base/logoMobile.png')}
         style={styles.logo}
-      /></View>  
+      />
+      </View>  
               <View>
                 <View style={styles.Filtrar_Title} >
                   <Text style ={styles.filmes_h2} >Filtrar lançamentos por categoria</Text>

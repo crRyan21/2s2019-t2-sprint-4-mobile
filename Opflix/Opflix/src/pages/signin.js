@@ -1,10 +1,14 @@
 import React, {Component,Fragment} from 'react';
 
-import {Text, TextInput, View, TouchableOpacity, AsyncStorage,StyleSheet,Image} from 'react-native';
+import {Text, TextInput, View, TouchableOpacity, AsyncStorage,StyleSheet,Image,ImageBackground,} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import Fundo from './../assets/base/background.jpg';
 
 class SignIn extends Component{
 
+    static navigationOptions = {
+        header: null,
+      };
     
     constructor() {
         super();
@@ -41,24 +45,29 @@ class SignIn extends Component{
             }
         }
     }
+    
 
     render () {
         return(
-            <ScrollView  >
+            <View >
+                <ImageBackground source={Fundo} style={{height:"100%", width:"100%" }} >
                 <View  style={styles.topo}>
                 <Image
                 source={require('../assets/base/logoMobile.png')}
                 style={styles.logo}
                 />
-                </View>  
+                </View>
+                {/* <Text style={styles.LoginH2}>Faça seu login</Text> */}
+                <View style={styles.form} >
                 
-                <TextInput placeholder="email" onChangeText={email => this.setState({email})}/>
-                <TextInput placeholder="senha" onChangeText={senha => this.setState({senha})}/>
-                <TouchableOpacity style={styles.bottom} onPress={this._realizarLogin}>
+                  <TextInput style={styles.corInput} placeholder="Email"  placeholderTextColor='black' onChangeText={email => this.setState({email})}/>
+                <TextInput style={styles.corInputSenha} placeholder="Senha"  placeholderTextColor='black' onChangeText={senha => this.setState({senha})}/>
+                <TouchableOpacity style={styles.bottom} onPress={this._realizarLogin}> 
                     <Text style={styles.textBottom} >Login</Text>
                 </TouchableOpacity>
-
-            </ScrollView> 
+                </View>  
+                </ImageBackground>
+            </View> 
         )
     }
 }
@@ -81,18 +90,59 @@ const styles = StyleSheet.create({
       position: 'relative',
       bottom: 30,
     },
+    LoginH2:{
+        fontSize:20,
+        color:"white",
+        textAlign:'center'
+    },  
+    corInput:{
+    //  color:'white',
+    //  fontSize:15,
+    backgroundColor:'white',
+    height:40,
+    width:"70%",
+    fontSize:15,
+    position: 'relative',
+    borderRadius:5
+    
+    },
+    corInputSenha:{
+    //  color:'white',
+    //  fontSize:15,
+    backgroundColor:'white',
+    height:40,
+    width:"70%",
+    fontSize:15,
+    position: 'relative',
+    // left:20,
+    top:20,
+    borderRadius:5
+
+    },
+    form:{
+        position:'relative',
+        top:50,
+        display:'flex',
+        justifyContent:'center',
+        alignItems:'center'
+    },
     bottom:{
-    //   width:100,
-    //   height:80,
-    //   backgroundColor:'black',
+   
       display:"flex",
       alignItems:'center',
       justifyContent: 'center',
-      textAlign:"center"
-
+      textAlign:"center",
+      position:'relative',
+      marginTop:30,
+      backgroundColor: '#341e49',
+      width:50,
+      height:25,
+      borderRadius:5
     },
+    
     textBottom:{
         textAlign:'center',
+        color:'white'
         
     }
 })

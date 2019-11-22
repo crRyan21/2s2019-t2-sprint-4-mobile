@@ -6,6 +6,7 @@ import SignInScreen from './pages/signin';
 import LancamentosScreen from './pages/lancamentos';
 import CategoriasScreen from './pages/categorias';
 import PlataformasScreen from './pages/plataformas';
+import ProfileScreen from './pages/profile';
 // import LFiltradoScreen from './pages/lancamentoFiltrado'
 // criar a navegaçao com o login = autenticaçao
 const AuthStack = createStackNavigator({
@@ -22,7 +23,10 @@ const MainNavigator = createBottomTabNavigator(
     },
     Plataformas: {
       screen: PlataformasScreen
-    }
+    },
+    // Profile:{
+    //   screen:ProfileScreen
+    // }
    
   
   },
@@ -49,6 +53,7 @@ export default createAppContainer(createSwitchNavigator(
     MainNavigator,
     AuthStack
   }, {
+
     initialRouteName: 'AuthStack',
   }
 ),
