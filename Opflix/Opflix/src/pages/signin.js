@@ -1,6 +1,7 @@
 import React, {Component,Fragment} from 'react';
 
 import {Text, TextInput, View, TouchableOpacity, AsyncStorage,StyleSheet,Image} from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 class SignIn extends Component{
 
@@ -43,7 +44,7 @@ class SignIn extends Component{
 
     render () {
         return(
-            <Fragment >
+            <ScrollView  >
                 <View  style={styles.topo}>
                 <Image
                 source={require('../assets/base/logoMobile.png')}
@@ -53,17 +54,19 @@ class SignIn extends Component{
                 
                 <TextInput placeholder="email" onChangeText={email => this.setState({email})}/>
                 <TextInput placeholder="senha" onChangeText={senha => this.setState({senha})}/>
-                <TouchableOpacity onPress={this._realizarLogin}>
-                    <Text>Login</Text>
+                <TouchableOpacity style={styles.bottom} onPress={this._realizarLogin}>
+                    <Text style={styles.textBottom} >Login</Text>
                 </TouchableOpacity>
 
-            </Fragment> 
+            </ScrollView> 
         )
     }
 }
 const styles = StyleSheet.create({
     corpo:{
-        backgroundColor: '#1E112a'
+        backgroundColor: '#1E112a',
+        position:'relative',
+        // bottom:30
     },
     topo:{
       backgroundColor: '#341e49',
@@ -77,6 +80,20 @@ const styles = StyleSheet.create({
     logo:{
       position: 'relative',
       bottom: 30,
+    },
+    bottom:{
+    //   width:100,
+    //   height:80,
+    //   backgroundColor:'black',
+      display:"flex",
+      alignItems:'center',
+      justifyContent: 'center',
+      textAlign:"center"
+
+    },
+    textBottom:{
+        textAlign:'center',
+        
     }
 })
 

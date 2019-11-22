@@ -6,7 +6,7 @@ import {FlatList, ScrollView} from 'react-native-gesture-handler';
 // import Img from 'react-image'
 
 
-class Categorias extends Component{
+ export default class Plataformas extends Component{
 
   static navigationOptions = {
     tabBarIcon: () => (
@@ -23,8 +23,8 @@ class Categorias extends Component{
           lancamentos: [
               // {idLancamento: 1, titulo: 'filme 1', sinopse: 'sinopse filme 1', dataLancamento: '2019-11-11T00:00.000', genero: 'nb', categoria: 'gay', plataforma: '15 ou mais'}
           ],
-          categoriaEscolhida: null,
-          categorias: []   
+          plataformaEscolhida: null,
+          plataformas: []   
       }
   }
 
@@ -34,7 +34,7 @@ class Categorias extends Component{
   }
 
   _carregarLancamentos = async () =>{
-      await fetch('http://192.168.4.183:5000/api/lancamentos/listar/categoria/' + this.state.categoriaEscolhida, {
+      await fetch('http://192.168.4.183:5000/api/lancamentos/listar/plataforma/' + this.state.plataformaEscolhida, {
           headers:{
               "Accept": "application/json",
               'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ class Categorias extends Component{
         .catch(erro => console.warn(erro))
   }
   _carregarPlataformas = async () => {
-      await fetch('http://192.168.4.183:5000/api/categorias', {
+      await fetch('http://192.168.4.183:5000/api/plataformas', {
         headers: {
           "Accept": "application/json",
           'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ class Categorias extends Component{
       }
       })
         .then(resposta => resposta.json())
-        .then(data => this.setState({categorias: data}))
+        .then(data => this.setState({plataformas: data}))
         .catch(erro => console.warn(erro));
     };
 
@@ -68,13 +68,13 @@ class Categorias extends Component{
       /></View>  
               <View>
                 <View style={styles.Filtrar_Title} >
-                  <Text style ={styles.filmes_h2} >Filtrar lançamentos por categoria</Text>
+                  <Text style ={styles.filmes_h2} >Filtrar lançamentos por plataforma:</Text>
                   
-                  <Picker  style={styles.label} selectedValue={this.state.categoriaEscolhida} onValueChange={(itemValue) => this.setState({categoriaEscolhida: itemValue})}>
-                      <Picker.Item label="Escolha a categoria:" value="0" selectedValue />
-                          {this.state.categorias.map(e => {
+                  <Picker  style={styles.label} selectedValue={this.state.plataformaEscolhida} onValueChange={(itemValue) => this.setState({plataformaEscolhida: itemValue})}>
+                      <Picker.Item label="Escolha a plataforma:" value="0" selectedValue />
+                          {this.state.plataformas.map(e => {
                               return( 
-                              <Picker.Item label={e.nome}  value={e.idCategoria} />
+                              <Picker.Item label={e.nome}  value={e.idPlataform} />
                                   )})}
                   </Picker>
                   </View>
@@ -114,108 +114,107 @@ class Categorias extends Component{
 }
 
 const styles = StyleSheet.create({
-  corpo:{
-      backgroundColor: '#1E112a'
-  },
-  Filtrar_Title:{
-    position: 'relative',
-    top:20
-  },
-  label:{
-    color:'white',
-    fontSize:18
-  },
-  filmes_h2:{
-    textAlign: 'center',
-    color: 'white',
-    fontSize:15
-  },  
-  filmes_lancamento:{
-      marginBottom:30,
-      position:'relative',
-      top: 40
-
-  },
-  filmes_nome_width:{
-    width:190,
-    marginLeft:10
-  },
-  filmes_nome:{
+    corpo:{
+        backgroundColor: '#1E112a'
+    },
+    Filtrar_Title:{
+      position: 'relative',
+      top:20
+    },
+    label:{
       color:'white',
-      fontSize: 18,
-      // textAlign: 'justify'
-      // marginRight:50
-  },
-  filmes_categoria:{
-    marginRight: 20,
-    color: '#A9A9A9',
-    fontSize: 15,
-  },  
-  filmes_sinopse:{
-    color: '#A9A9A9',
-    fontSize: 18
-  },
-  fimes_row:{
-    display:'flex',
-    flexDirection:'row',
-    justifyContent: 'flex-end',
-    position: 'relative',
-    right:20
-  },
-  // fimes_row1:{
-  //   display:'flex',
-  //   flexDirection:'row',
-  // },
-  filmes_duracao:{
-    color: '#A9A9A9',
-    fontSize: 12,
-    position:'relative',
-    top:10,
-    marginBottom:20,
-    marginLeft: 20
-  },
-  filmes_estreia:{
-    color: '#A9A9A9',
-    fontSize: 15,
-    position:'relative',
-  },
-  estreia_row:{
-    display:'flex',
-    flexDirection:'row',
-    justifyContent: 'flex-end',
-    position: 'relative',
-    right:20,
-    bottom: 23
-  },
-  topo:{
-    backgroundColor: '#341e49',
-    display:'flex',
-    alignItems:'center',
-    height: 60
-  },
-  logo:{
-    position: 'relative',
-    bottom: 30,
-    // height: 65,
-    // width:200,
-  },
-  View_Imagem:{
-    display:'flex',
-    justifyContent:'center',
-    alignItems:'center'
-  },
-  imagem:{
-    height: 300,
-    width:200,
-    
-  },
-  tabNavigatorIcon:{ 
-    width: 25,
-    height: 25, 
-    // tintColor: 'white'
-  }
+      fontSize:18
+    },
+    filmes_h2:{
+      textAlign: 'center',
+      color: 'white',
+      fontSize:15
+    },  
+    filmes_lancamento:{
+        marginBottom:30,
+        position:'relative',
+        top: 40
   
+    },
+    filmes_nome_width:{
+      width:200,
+      marginLeft:10
+    },
+    filmes_nome:{
+        color:'white',
+        fontSize: 18,
+        // textAlign: 'justify'
+        // marginRight:50
+    },
+    filmes_categoria:{
+      marginRight: 20,
+      color: '#A9A9A9',
+      fontSize: 15,
+    },  
+    filmes_sinopse:{
+      color: '#A9A9A9',
+      fontSize: 18
+    },
+    fimes_row:{
+      display:'flex',
+      flexDirection:'row',
+      justifyContent: 'flex-end',
+      position: 'relative',
+      right:20
+    },
+    // fimes_row1:{
+    //   display:'flex',
+    //   flexDirection:'row',
+    // },
+    filmes_duracao:{
+      color: '#A9A9A9',
+      fontSize: 12,
+      position:'relative',
+      top:10,
+      marginBottom:20,
+      marginLeft: 20
+    },
+    filmes_estreia:{
+      color: '#A9A9A9',
+      fontSize: 15,
+      position:'relative',
+    },
+    estreia_row:{
+      display:'flex',
+      flexDirection:'row',
+      justifyContent: 'flex-end',
+      position: 'relative',
+      right:20,
+      bottom: 23
+    },
+    topo:{
+      backgroundColor: '#341e49',
+      display:'flex',
+      alignItems:'center',
+      height: 60
+    },
+    logo:{
+      position: 'relative',
+      bottom: 30,
+      // height: 65,
+      // width:200,
+    },
+    View_Imagem:{
+      display:'flex',
+      justifyContent:'center',
+      alignItems:'center'
+    },
+    imagem:{
+      height: 300,
+      width:200,
+      
+    },
+    tabNavigatorIcon:{ 
+      width: 25,
+      height: 25, 
+      // tintColor: 'white'
+    }
+    
+  
+  })
 
-})
-
-export default Categorias;

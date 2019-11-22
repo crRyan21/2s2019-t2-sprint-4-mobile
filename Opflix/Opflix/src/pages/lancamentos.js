@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
 
     },
     filmes_nome_width:{
-      width:200,
+      width:190,
       marginLeft:10
     },
     filmes_nome:{

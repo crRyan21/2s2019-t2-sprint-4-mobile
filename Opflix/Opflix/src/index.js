@@ -5,6 +5,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import SignInScreen from './pages/signin';
 import LancamentosScreen from './pages/lancamentos';
 import CategoriasScreen from './pages/categorias';
+import PlataformasScreen from './pages/plataformas';
 // import LFiltradoScreen from './pages/lancamentoFiltrado'
 // criar a navegaçao com o login = autenticaçao
 const AuthStack = createStackNavigator({
@@ -19,6 +20,9 @@ const MainNavigator = createBottomTabNavigator(
     Categorias: {
       screen: CategoriasScreen,
     },
+    Plataformas: {
+      screen: PlataformasScreen
+    }
    
   
   },
