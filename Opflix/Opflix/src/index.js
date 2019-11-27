@@ -24,9 +24,9 @@ const MainNavigator = createBottomTabNavigator(
     Plataformas: {
       screen: PlataformasScreen
     },
-    // Profile:{
-    //   screen:ProfileScreen
-    // }
+    Profile:{
+      screen:ProfileScreen
+    }
    
   
   },

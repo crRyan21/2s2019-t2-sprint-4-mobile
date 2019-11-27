@@ -1,7 +1,9 @@
-import React, {Component,Fragment} from 'react';
-import {Text, View, Image, StyleSheet,TouchableHighlight,AsyncStorage} from 'react-native';
-import {FlatList,ScrollView} from 'react-native-gesture-handler';
-import { DrawerNavigator } from 'react-navigation'; 
+import React, { Component, Fragment } from 'react';
+import { Text, View, Image, StyleSheet, TouchableHighlight, AsyncStorage } from 'react-native';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import { DrawerNavigator } from 'react-navigation';
+import jwt from 'jwt-decode'
+
 
 // import Img from 'react-image'
 
@@ -12,7 +14,7 @@ class Lancamentos extends Component {
   static navigationOptions = {
     tabBarIcon: () => (
       <Image
-        source={require('../assets/base/iconeFilme.png')}
+        source={require('../assets/base/iconePerfil.png')}
         style={styles.tabNavigatorIcon}
       />
     )
@@ -21,154 +23,131 @@ class Lancamentos extends Component {
   constructor() {
     super();
     this.state = {
-      usuarios: [
-        // {
-        //     // nome:'ryan'
-        // }
-      ],
+      unique_name: '',
+      imagem: '',
+      telefone: '',
+      email:'',
+      permissao:''
     };
   }
 
   componentDidMount() {
-    this._carregarCategorias();
-    console.warn(AsyncStorage.getItem('roman-token'));
-
+    this._carregarPermissao();
+    this._carregarTelefone();
+    this._carregarEmail();
+    this._carregarImagem();
+    this._carregarNome();
+    console.warn(AsyncStorage.getItem('opflix-token'));
   }
 
-  _carregarCategorias = async () => {
-    try{
-        let token = await AsyncStorage.getItem('opflix-token');
-        console.warn(token)
-    
-    await fetch('http://192.168.4.183:5000/api/usuarios',{
-        method:'GET',
-        headers:{
-            "Content-Type": "application/json",
-            "Authorization": 'Bearer ' + token
-        }
-    })
-      .then(resposta => resposta.json())
-      .then(data => this.setState({usuarios: data}))
-      .catch(erro => console.warn(erro));
-    }catch(error){
-
-    }
-  };
+  _carregarNome = async () => {
+    this.setState({ unique_name: jwt(await AsyncStorage.getItem('opflix-token')).unique_name })
+  }
+  _carregarImagem = async () => {
+    this.setState({ imagem: jwt(await AsyncStorage.getItem('opflix-token')).gender })
+  }
+  _carregarEmail = async () => {
+    this.setState({ email: jwt(await AsyncStorage.getItem('opflix-token')).email })
+  }
+  _carregarTelefone = async () => {
+    this.setState({ telefone: jwt(await AsyncStorage.getItem('opflix-token')).sub })
+  }
+  _carregarPermissao = async () => {
+    this.setState({ permissao: jwt(await AsyncStorage.getItem('opflix-token')).prn })
+  }
 
 
   render() {
     return (
-      
-        <Fragment style={styles.corpo}>
-      <View  style={styles.topo}>
-        <Image
-        source={require('../assets/base/logoMobile.png')}
-        style={styles.logo}
-      />
-      </View>  
-      <FlatList style={styles.corpo}
-        data={this.state.usuarios}
-        keyExtractor={item => item.idUsuario}
-        renderItem={({item}) => (
-          
-              <Text style={styles.filmes_nome}>{item.nome}</Text>
-          
-        )}
-        
-      />
-      </Fragment>
+      <ScrollView style={styles.corpo}>
+        <View style={styles.topo}>
+          <Image
+            source={require('../assets/base/logoMobile.png')}
+            style={styles.logo}
+          />
+        </View>
+        <View style={styles.infos} >
+
+          <View style={styles.Viewimagem} >
+          <Image
+            source={{uri:this.state.imagem}}
+            style={styles.fotoPerfil}
+            />
+          </View>
+
+          <View >
+          <Text style={styles.Nome} >
+            {this.state.unique_name}
+          </Text>
+          </View>
+
+          <View style={styles.dados} >
+            <Text style={styles.dadosText}>Email: {this.state.email}</Text>
+          </View>
+
+          <View style={styles.dados} >
+            <Text style={styles.dadosText}>Telefone: {this.state.telefone}</Text>
+          </View>
+
+          <View style={styles.dados} >
+            <Text style={styles.dadosText}>Permissão: {this.state.permissao}</Text>
+          </View>
+
+          </View>
+      </ScrollView>
     );
+
   }
 }
 const styles = StyleSheet.create({
-    corpo:{
-        backgroundColor: '#1E112a'
-    },
-    filmes_lancamento:{
-        marginBottom:30,
-        position:'relative',
-        top: 40
+  corpo: {
+    backgroundColor: '#1E112a'
+  },
+  infos:{
+    marginTop:30
+  },  
+  dados:{
+    marginLeft:20,
+    marginTop:20
+  },
+  dadosText:{
+    color:'#b4b4b4',
+    fontSize:15,
 
-    },
-    filmes_nome_width:{
-      width:190,
-      marginLeft:10
-    },
-    filmes_nome:{
-        color:'white',
-        fontSize: 18,
-        // textAlign: 'justify'
-        // marginRight:50
-    },
-    filmes_categoria:{
-      marginRight: 20,
-      color: '#A9A9A9',
-      fontSize: 15,
-    },  
-    filmes_sinopse:{
-      color: '#A9A9A9',
-      fontSize: 18
-    },
-    fimes_row:{
-      display:'flex',
-      flexDirection:'row',
-      justifyContent: 'flex-end',
-      position: 'relative',
-      right:20
-    },
-    // fimes_row1:{
-    //   display:'flex',
-    //   flexDirection:'row',
-    // },
-    filmes_duracao:{
-      color: '#A9A9A9',
-      fontSize: 12,
-      position:'relative',
-      top:10,
-      marginBottom:20,
-      marginLeft: 20
-    },
-    filmes_estreia:{
-      color: '#A9A9A9',
-      fontSize: 15,
-      position:'relative',
-    },
-    estreia_row:{
-      display:'flex',
-      flexDirection:'row',
-      justifyContent: 'flex-end',
-      position: 'relative',
-      right:20,
-      bottom: 23
-    },
-    topo:{
-      backgroundColor: '#341e49',
-      display:'flex',
-      alignItems:'center',
-      height: 60
-    },
-    logo:{
-      position: 'relative',
-      bottom: 30,
-      // height: 65,
-      // width:200,
-    },
-    View_Imagem:{
-      display:'flex',
-      justifyContent:'center',
-      alignItems:'center'
-    },
-    imagem:{
-      height: 300,
-      width:200,
-      
-    },
-    tabNavigatorIcon:{ 
-      width: 25,
-      height: 25, 
-      // tintColor: 'white'
-    }
-    
+  },
+  Nome:{
+    color:'white',
+    fontSize:20,
+    textAlign:'center'
+  },
+  Viewimagem:{
+    display:'flex',
+    justifyContent:'center',
+    alignItems:'center',
+    // margin:'0 auto'
+  },
+  tabNavigatorIcon:{ 
+    width: 25,
+    height: 25, 
+    color: '#b4b4b4'
+    // tintColor: 'white'
+  },
+  fotoPerfil:{
+    height:130,
+    width:110
+  },
+  topo:{
+    backgroundColor: '#341e49',
+    display:'flex',
+    alignItems:'center',
+    height: 60
+  },
+  logo:{
+    position: 'relative',
+    bottom: 30,
+    // height: 65,
+    // width:200,
+  },
 
 })
 
